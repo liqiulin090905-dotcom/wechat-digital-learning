@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080">
+    <title>手机数码核心参数学习指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Roboto', 'Helvetica Neue', sans-serif;
+            width: 1080px;
+            background: linear-gradient(180deg, #0052D9 0%, #0052D9 20%, #F5F7FA 20%, #F5F7FA 100%);
+            min-height: 2400px;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            width: 1080px;
+            height: 400px;
+            background: linear-gradient(135deg, #0052D9 0%, #4364EE 50%, #6B8DD6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 50px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .title {
+            position: absolute;
+            top: 120px;
+            left: 50px;
+            color: white;
+        }
+        
+        .title h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+        }
+        
+        .title p {
+            font-size: 32px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .tag {
+            position: absolute;
+            bottom: 40px;
+            right: 50px;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: white;
+            font-size: 22px;
+        }
+        
+        .content {
+            padding: 60px 50px;
+            width: 1080px;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            color: #0052D9;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 6px solid #0052D9;
+            font-weight: 700;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(180deg, #0052D9, #4364EE);
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #EBF4FF, #E0EBFF);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 25px;
+            font-size: 32px;
+        }
+        
+        .card-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: #1D1D1D;
+        }
+        
+        .card-subtitle {
+            font-size: 24px;
+            color: #888;
+            margin-top: 6px;
+        }
+        
+        .card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .spec-item {
+            background: #F8FAFC;
+            border-radius: 16px;
+            padding: 25px;
+        }
+        
+        .spec-label {
+            font-size: 22px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .spec-value {
+            font-size: 30px;
+            font-weight: 700;
+            color: #0052D9;
+        }
+        
+        .spec-desc {
+            font-size: 20px;
+            color: #888;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF7E6, #FFF0D6);
+            border: 2px solid #FF6B00;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 20px;
+        }
+        
+        .highlight-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF6B00;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-content {
+            font-size: 22px;
+            color: #1D1D1D;
+            line-height: 1.7;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #E8F5E9, #E3F2FD);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .tip-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        .tip-content {
+            font-size: 22px;
+            color: #1D1D1D;
+            line-height: 1.6;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th {
+            background: #0052D9;
+            color: white;
+            padding: 18px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .comparison-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+        
+        .comparison-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+        
+        .comparison-table td {
+            padding: 16px 18px;
+            font-size: 20px;
+            border-bottom: 1px solid #EEE;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #F8FAFC;
+        }
+        
+        .sales-box {
+            background: linear-gradient(135deg, #FFF7E6, #FFEBCC);
+            border-radius: 20px;
+            padding: 35px;
+            margin: 30px 0;
+            border: 3px solid #FF6B00;
+        }
+        
+        .sales-title {
+            font-size: 30px;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sales-title span {
+            margin-left: 15px;
+        }
+        
+        .sales-content {
+            font-size: 24px;
+            color: #1D1D1D;
+            line-height: 1.8;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .footer {
+            width: 1080px;
+            background: #1D1D1D;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .footer-text {
+            color: #888;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-qr {
+            width: 150px;
+            height: 150px;
+            background: white;
+            margin: 20px auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            color: white;
+            font-weight: 700;
+            margin-top: 25px;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 12px;
+        }
+        
+        .chart-bar {
+            width: 80px;
+            background: linear-gradient(180deg, #0052D9, #4364EE);
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            color: white;
+            padding-top: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .chart-label {
+            font-size: 18px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo"></div>
+        <div class="title">
+            <h1>数码百科</h1>
+            <p>手机核心参数详解 · 第一期</p>
+        </div>
+        <div class="tag">每日学习</div>
+        <div class="page-number">01</div>
+    </div>
+    
+    <div class="content">
+        <div class="section-title">处理器 (SoC) 基础知识</div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <div>
+                    <div class="card-title">旗舰处理器解析</div>
+                    <div class="card-subtitle">了解手机"大脑"的核心参数</div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div class="spec-item">
+                    <div class="spec-label">CPU 性能核心</div>
+                    <div class="spec-value">4nm / 3.2GHz</div>
+                    <div class="spec-desc">制程工艺越先进，能效比越高，发热越小</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">NPU AI 引擎</div>
+                    <div class="spec-value">15 TOPS</div>
+                    <div class="spec-desc">AI算力直接影响拍照、语音助手响应速度</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">GPU 图形处理</div>
+                    <div class="spec-value">Adreno 750</div>
+                    <div class="spec-desc">决定游戏画质和流畅度</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">基带芯片</div>
+                    <div class="spec-value">5G + Wi-Fi 7</div>
+                    <div class="spec-desc">影响网络下载速度和稳定性</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div>
+                    <div class="chart-bar" style="height: 100px;">+35%</div>
+                    <div class="chart-label">最新旗舰</div>
+                </div>
+                <div>
+                    <div class="chart-bar" style="height: 74px; background: linear-gradient(180deg, #888, #AAA);">+0%</div>
+                    <div class="chart-label">上代旗舰</div>
+                </div>
+                <div>
+                    <div class="chart-bar" style="height: 45px; background: linear-gradient(180deg, #CCC, #DDD);">-40%</div>
+                    <div class="chart-label">中端芯片</div>
+                </div>
+            </div>
+            
+            <div class="tip-card">
+                <div class="tip-title">选购建议</div>
+                <div class="tip-content">日常使用建议选择旗舰或次旗舰处理器，不仅流畅度有保障，拍照、AI等功能也能充分发挥。建议选购最新两代以内的处理器型号。</div>
+            </div>
+        </div>
+        
+        <div class="section-title">屏幕显示技术</div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <div>
+                    <div class="card-title">屏幕关键参数</div>
+                    <div class="card-subtitle">影响观感的核心要素</div>
+                </div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>普通级别</th>
+                        <th>旗舰级别</th>
+                        <th>选购建议</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>刷新率</strong></td>
+                        <td>60Hz</td>
+                        <td>120Hz / 144Hz</td>
+                        <td>越高越流畅</td>
+                    </tr>
+                    <tr>
+                        <td><strong>分辨率</strong></td>
+                        <td>1080P</td>
+                        <td>2K / 4K</td>
+                        <td>越高越细腻</td>
+                    </tr>
+                    <tr>
+                        <td><strong>亮度</strong></td>
+                        <td>500nit</td>
+                        <td>2000nit+</td>
+                        <td>户外可见性</td>
+                    </tr>
+                    <tr>
+                        <td><strong>调光</strong></td>
+                        <td>PWM</td>
+                        <td>DC / LTPO</td>
+                        <td>护眼程度</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="highlight-box">
+                <div class="highlight-title">重点：LTPO 技术</div>
+                <div class="highlight-content">LTPO (低温多晶氧化物) 屏幕能够智能调节刷新率，在保证流畅度的同时降低功耗。例如静止时降至1Hz，滑动时瞬间升至120Hz，可节省约20%屏幕功耗。</div>
+            </div>
+            
+            <div class="tip-card">
+                <div class="tip-title">护眼提示</div>
+                <div class="tip-content">敏感眼睛用户建议选择支持高频PWM调光(>=1920Hz)或DC调光的机型，可有效减少频闪带来的视觉疲劳。</div>
+            </div>
+        </div>
+        
+        <div class="section-title">影像系统详解</div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <div>
+                    <div class="card-title">摄像头参数指南</div>
+                    <div class="card-subtitle">像素、传感器与光圈的学问</div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div class="spec-item">
+                    <div class="spec-label">传感器尺寸</div>
+                    <div class="spec-value">1/1.28" - 1"</div>
+                    <div class="spec-desc">底大一级压死人，1英寸是目前手机最大底</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">像素数量</div>
+                    <div class="spec-value">5000万-2亿</div>
+                    <div class="spec-desc">高像素带来更丰富的细节表现</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">光圈大小</div>
+                    <div class="spec-value">f/1.4 - f/2.4</div>
+                    <div class="spec-desc">f/1.4进光量更大，夜景更出色</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">光学防抖</div>
+                    <div class="spec-value">OIS / 悬浮防抖</div>
+                    <div class="spec-desc">有效减少手抖导致的照片模糊</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <div class="highlight-title">重点：大底才是王道</div>
+                <div class="highlight-content">传感器尺寸是影响画质的最关键因素。1英寸大底传感器（如IMX989）相比普通1/1.7英寸传感器，单像素面积提升约300%，夜景表现差距明显。</div>
+            </div>
+        </div>
+        
+        <div class="sales-box">
+            <div class="sales-title">
+                <span>销售话术总结</span>
+            </div>
+            <div class="sales-content">
+                "这款手机采用最新的<span style="color:#0052D9;font-weight:700;">4nm旗舰处理器</span>，配合<span style="color:#0052D9;font-weight:700;">120Hz LTPO屏幕</span>，日常使用和玩游戏都特别流畅。而且用了<span style="color:#0052D9;font-weight:700;">1英寸大底主摄</span>，拍照效果比同价位手机好很多，特别是夜景表现非常出色。用个三五年完全没问题！"
+            </div>
+        </div>
+        
+        <div class="section-title">续航与充电</div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <div>
+                    <div class="card-title">电池与快充参数</div>
+                    <div class="card-subtitle">告别电量焦虑</div>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div class="spec-item">
+                    <div class="spec-label">电池容量</div>
+                    <div class="spec-value">5000mAh</div>
+                    <div class="spec-desc">主流旗舰标配，续航1.5天以上</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">有线快充</div>
+                    <div class="spec-value">80W - 120W</div>
+                    <div class="spec-desc">15-30分钟即可充满</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">无线快充</div>
+                    <div class="spec-value">30W - 50W</div>
+                    <div class="spec-desc">旗舰机型专属</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">反向充电</div>
+                    <div class="spec-value">5W - 10W</div>
+                    <div class="spec-desc">可为耳机、手表应急充电</div>
+                </div>
+            </div>
+            
+            <div class="tip-card">
+                <div class="tip-title">使用建议</div>
+                <div class="tip-content">快充不会伤电池，但建议使用原装充电器。电池健康度低于80%时续航会明显下降，这时可以考虑更换电池。</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-text">扫码答题巩固今日所学</div>
+        <div class="footer-qr">二维码区域</div>
+        <div class="footer-logo">企业内训 · 数码学院</div>
+        <div class="page-number" style="bottom:20px;">01</div>
+    </div>
+</body>
+</html>

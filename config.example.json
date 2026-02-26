@@ -1,0 +1,7 @@
+{
+    "corp_id": "your_corp_id",
+    "agent_id": "your_agent_id",
+    "secret": "your_secret",
+    "image_path": "assets/phone_learning.png",
+    "default_receiver": "@all"
+}

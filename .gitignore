@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.s
+.DS_wo
+
+# OSStore
+Thumbs.db
+
+# 项目特定
+config.json
+*.log
+temp/
+tmp/
+
+# 敏感信息
+.env
+.env.local
