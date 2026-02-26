@@ -10,6 +10,7 @@
 
 - 📱 **学习内容生成**：自动生成专业的手机数码知识长图
 - 📤 **企业微信推送**：一键推送到企业微信应用
+- ⏰ **每日自动发送**：GitHub Actions 每天 9:10 自动运行
 - 📖 **每日更新**：持续输出数码知识学习内容
 - 🎯 **销售话术**：附带实用的销售推荐话术
 
@@ -17,14 +18,15 @@
 
 ```
 wechat-digital-learning/
+├── .github/
+│   └── workflows/
+│       └── daily_send.yml    # GitHub Actions 自动任务
 ├── src/
-│   └── phone_learning.html    # 学习文件HTML模板
-├── assets/
-│   └── phone_learning.png    # 生成的学习图片
+│   └── phone_learning.html   # 学习文件HTML模板
 ├── scripts/
-│   ├── send_final.py         # 最终发送脚本
-│   ├── check_wechat_permissions.py  # 权限检查工具
-│   └── send_to_wechat.py     # 基础发送脚本
+│   └── send_message.py       # 发送脚本（支持环境变量）
+├── assets/
+│   └── phone_learning.png    # 学习图片
 ├── requirements.txt          # Python依赖
 ├── README.md                 # 项目说明
 └── config.example.json       # 配置文件示例
@@ -37,11 +39,11 @@ wechat-digital-learning/
 - Python 3.8+
 - 企业微信账号（需要管理员权限）
 
-### 安装步骤
+### 本地运行
 
 1. 克隆项目
 ```bash
-git clone https://github.com/yourusername/wechat-digital-learning.git
+git clone https://github.com/liqiulin090905-dotcom/wechat-digital-learning.git
 cd wechat-digital-learning
 ```
 
@@ -56,29 +58,48 @@ pip install -r requirements.txt
 
 ```json
 {
-    "corp_id": "your_corp_id",
-    "agent_id": "your_agent_id",
+    "corp_id": "ww88674b7239edf100",
+    "agent_id": "1000009",
     "secret": "your_secret"
 }
 ```
 
-### 使用方法
-
-#### 1. 生成学习图片
-
-修改 `src/phone_learning.html` 中的内容，然后使用浏览器截图或工具生成PNG图片。
-
-#### 2. 推送到企业微信
-
+4. 推送到企业微信
 ```bash
-python scripts/send_final.py
+python scripts/send_message.py
 ```
 
-或指定图片路径：
+---
 
-```bash
-python scripts/send_final.py --image path/to/image.png
-```
+## GitHub Actions 每日自动发送
+
+### 配置 Secrets
+
+1. 进入 GitHub 仓库设置
+2. 找到 `Settings` -> `Secrets and variables` -> `Actions`
+3. 点击 `New repository secret` 添加以下 secrets：
+
+| Secret 名称 | 说明 | 示例值 |
+|-------------|------|--------|
+| CORP_ID | 企业ID | ww88674b7239edf100 |
+| AGENT_ID | 应用ID | 1000009 |
+| SECRET | 应用Secret | wJzw2I-5FCVN-6CAB4k... |
+| IMAGE_PATH | 图片路径(可选) | assets/phone_learning.png |
+
+### 自动任务说明
+
+- **运行时间**：每天 9:10 北京时间
+- **触发方式**：
+  - 自动：每天定时执行
+  - 手动：在 Actions 页面点击 "Run workflow"
+
+### 测试工作流
+
+1. 进入仓库的 `Actions` 页面
+2. 选择 `Daily WeChat Sender`
+3. 点击 `Run workflow` -> `Run workflow`
+
+---
 
 ## 学习内容模板
 
@@ -124,16 +145,20 @@ python scripts/send_final.py --image path/to/image.png
 ### Q: 发送失败，提示 "not allow operate another agent"
 A: 请检查 AgentId 是否正确，确保使用应用专属的 Secret。
 
+### Q: GitHub Actions 一直等待
+A: 检查 Secrets 是否配置正确，特别是 SECRET 字段。
+
 ### Q: 图片上传失败
-A: 检查网络连接，确保企业微信API可访问。
+A: 检查网络连接，确保企业微信API可访问。图片路径需要相对于脚本所在目录。
 
 ### Q: 如何修改学习内容？
-A: 直接编辑 `src/phone_learning.html` 文件，使用浏览器打开后截图生成新图片。
+A: 直接编辑 `src/phone_learning.html` 文件，使用浏览器打开后截图生成新图片，替换 `assets/phone_learning.png`。
 
 ## 技术栈
 
 - **Python 3.8+** - 后端脚本
 - **HTML/CSS** - 学习内容模板
+- **GitHub Actions** - 自动化任务
 - **企业微信API** - 消息推送
 
 ## 许可证
@@ -145,6 +170,11 @@ MIT License
 Matrix Agent
 
 ## 更新日志
+
+### v1.1.0 (2026-02-26)
+- 新增 GitHub Actions 每日自动发送功能
+- 支持环境变量配置（适配 CI/CD）
+- 优化脚本错误处理
 
 ### v1.0.0 (2026-02-26)
 - 初始版本

@@ -1,0 +1,49 @@
+# 企业微信每日自动发送工作流
+
+name: Daily WeChat Sender
+
+on:
+  # 每天 9:10 北京时间 (01:10 UTC) 自动运行
+  schedule:
+    - cron: '10 1 * * *'
+  
+  # 支持手动触发测试
+  workflow_dispatch:
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      
+      # 安装依赖
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      # 设置环境变量并运行脚本
+      - name: Run sending script
+        env:
+          CORP_ID: ${{ secrets.CORP_ID }}
+          AGENT_ID: ${{ secrets.AGENT_ID }}
+          SECRET: ${{ secrets.SECRET }}
+          IMAGE_PATH: ${{ secrets.IMAGE_PATH || 'assets/phone_learning.png' }}
+        run: |
+          python scripts/send_message.py
+      
+      # 记录运行结果
+      - name: Log result
+        if: always()
+        run: |
+          echo "Workflow completed at $(date)"
