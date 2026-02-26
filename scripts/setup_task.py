@@ -11,7 +11,7 @@ import subprocess
 
 # 配置
 TASK_NAME = "WeChatDailySender"
-SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts", "send_message.py")
+SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "send_message.py")
 PYTHON_PATH = sys.executable
 TRIGGER_TIME = "09:10"  # 每天运行时间
 
