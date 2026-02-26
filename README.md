@@ -10,7 +10,7 @@
 
 - 📱 **学习内容生成**：自动生成专业的手机数码知识长图
 - 📤 **企业微信推送**：一键推送到企业微信应用
-- ⏰ **每日自动发送**：GitHub Actions 每天 9:10 自动运行
+- ⏰ **每日自动发送**：支持本地定时任务和GitHub Actions
 - 📖 **每日更新**：持续输出数码知识学习内容
 - 🎯 **销售话术**：附带实用的销售推荐话术
 
@@ -24,7 +24,8 @@ wechat-digital-learning/
 ├── src/
 │   └── phone_learning.html   # 学习文件HTML模板
 ├── scripts/
-│   └── send_message.py       # 发送脚本（支持环境变量）
+│   ├── send_message.py       # 发送脚本
+│   └── setup_task.py         # Windows定时任务设置
 ├── assets/
 │   └── phone_learning.png    # 学习图片
 ├── requirements.txt          # Python依赖
@@ -64,27 +65,59 @@ pip install -r requirements.txt
 }
 ```
 
-4. 推送到企业微信
+4. 测试发送
 ```bash
 python scripts/send_message.py
 ```
 
 ---
 
-## GitHub Actions 每日自动发送
+## 每日自动发送（推荐：本地定时任务）
+
+由于 GitHub Actions 的服务器IP未被企业微信添加到白名单，推荐使用 **Windows 计划任务** 在本地定时运行。
+
+### 设置定时任务
+
+```bash
+cd scripts
+python setup_task.py create
+```
+
+这将创建一个每天 **9:10** 自动运行的任务。
+
+### 定时任务命令
+
+| 命令 | 说明 |
+|------|------|
+| `python setup_task.py create` | 创建定时任务 |
+| `python setup_task.py delete` | 删除定时任务 |
+| `python setup_task.py status` | 查看任务状态 |
+| `python setup_task.py run` | 立即运行一次 |
+
+### 修改运行时间
+
+编辑 `scripts/setup_task.py` 中的 `TRIGGER_TIME` 变量：
+```python
+TRIGGER_TIME = "09:10"  # 改成您想要的时间
+```
+
+---
+
+## GitHub Actions（需要IP白名单）
+
+> ⚠️ 注意：GitHub Actions 运行器的IP未被企业微信白名单，需要在企业微信后台添加IP白名单才能使用。
 
 ### 配置 Secrets
 
 1. 进入 GitHub 仓库设置
 2. 找到 `Settings` -> `Secrets and variables` -> `Actions`
-3. 点击 `New repository secret` 添加以下 secrets：
+3. 添加以下 secrets：
 
-| Secret 名称 | 说明 | 示例值 |
-|-------------|------|--------|
-| CORP_ID | 企业ID | ww88674b7239edf100 |
-| AGENT_ID | 应用ID | 1000009 |
-| SECRET | 应用Secret | wJzw2I-5FCVN-6CAB4k... |
-| IMAGE_PATH | 图片路径(可选) | assets/phone_learning.png |
+| Secret 名称 | 值 |
+|-------------|---|
+| CORP_ID | `ww88674b7239edf100` |
+| AGENT_ID | `1000009` |
+| SECRET | `wJzw2I-5FCVN-6CAB4k...` |
 
 ### 自动任务说明
 
@@ -92,12 +125,6 @@ python scripts/send_message.py
 - **触发方式**：
   - 自动：每天定时执行
   - 手动：在 Actions 页面点击 "Run workflow"
-
-### 测试工作流
-
-1. 进入仓库的 `Actions` 页面
-2. 选择 `Daily WeChat Sender`
-3. 点击 `Run workflow` -> `Run workflow`
 
 ---
 
@@ -142,11 +169,11 @@ python scripts/send_message.py
 
 ## 常见问题
 
+### Q: GitHub Actions 失败，提示 "not allow to access from your ip"
+A: 这是因为GitHub服务器IP未在企业微信白名单中。请使用本地定时任务方案（推荐），或在企业微信后台添加IP白名单。
+
 ### Q: 发送失败，提示 "not allow operate another agent"
 A: 请检查 AgentId 是否正确，确保使用应用专属的 Secret。
-
-### Q: GitHub Actions 一直等待
-A: 检查 Secrets 是否配置正确，特别是 SECRET 字段。
 
 ### Q: 图片上传失败
 A: 检查网络连接，确保企业微信API可访问。图片路径需要相对于脚本所在目录。
@@ -158,7 +185,8 @@ A: 直接编辑 `src/phone_learning.html` 文件，使用浏览器打开后截�
 
 - **Python 3.8+** - 后端脚本
 - **HTML/CSS** - 学习内容模板
-- **GitHub Actions** - 自动化任务
+- **Windows 计划任务** - 本地定时任务
+- **GitHub Actions** - 云端定时任务（需IP白名单）
 - **企业微信API** - 消息推送
 
 ## 许可证
@@ -171,13 +199,15 @@ Matrix Agent
 
 ## 更新日志
 
+### v1.2.0 (2026-02-26)
+- 新增 Windows 定时任务方案（推荐）
+- 优化脚本错误处理
+
 ### v1.1.0 (2026-02-26)
 - 新增 GitHub Actions 每日自动发送功能
 - 支持环境变量配置（适配 CI/CD）
-- 优化脚本错误处理
 
 ### v1.0.0 (2026-02-26)
 - 初始版本
 - 支持学习图片生成
 - 支持企业微信推送
-- 包含权限检查工具
