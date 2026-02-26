@@ -20,6 +20,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
+      # 显示目录结构
+      - name: List files
+        run: |
+          echo "=== 当前目录结构 ==="
+          ls -la
+          echo ""
+          echo "=== assets目录 ==="
+          ls -la assets/ 2>/dev/null || echo "assets目录不存在"
+      
       # 设置 Python 环境
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,6 +41,15 @@ jobs:
         run: |
           pip install -r requirements.txt
       
+      # 显示环境变量(调试用)
+      - name: Debug env vars
+        run: |
+          echo "=== 环境变量检查 ==="
+          echo "CORP_ID set: ${{ secrets.CORP_ID != '' }}"
+          echo "AGENT_ID set: ${{ secrets.AGENT_ID != '' }}"
+          echo "SECRET set: ${{ secrets.SECRET != '' }}"
+          echo "IMAGE_PATH: ${{ secrets.IMAGE_PATH || 'assets/phone_learning.png' }}"
+      
       # 设置环境变量并运行脚本
       - name: Run sending script
         env:
@@ -41,9 +59,3 @@ jobs:
           IMAGE_PATH: ${{ secrets.IMAGE_PATH || 'assets/phone_learning.png' }}
         run: |
           python scripts/send_message.py
-      
-      # 记录运行结果
-      - name: Log result
-        if: always()
-        run: |
-          echo "Workflow completed at $(date)"
